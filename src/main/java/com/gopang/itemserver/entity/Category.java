@@ -54,9 +54,10 @@ public class Category extends BaseTimeEntity {
         item.setCategory(this); // 양방향 연관관계 설정
     }
 
-    public void setParent(Category parent) {
+    public Long setParent(Category parent) {
         this.parent = parent;
         parent.getChild().add(this);
+        return parent.getCategoryId();
     }
 
 }

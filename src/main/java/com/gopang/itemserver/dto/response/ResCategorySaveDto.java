@@ -32,11 +32,11 @@ public class ResCategorySaveDto {
         this.depth = depth;
     }
 
-    public static ResCategorySaveDto fromEntity(Category category) {
+    public static ResCategorySaveDto fromEntity(Category category, Long parentId) {
         return ResCategorySaveDto.builder()
                 .categoryId(category.getCategoryId())
                 .name(category.getName())
-                //.parentId(category.getParent().getCategoryId())
+                .parentId(parentId)
                 .depth(category.getDepth())
                 .build();
     }

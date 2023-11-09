@@ -21,16 +21,15 @@ public class CategoryService {
 
         categorySaveDto.setDepth(depth);
         Category category = CategorySaveDto.ofEntity(categorySaveDto);
+        Long parentId = (parent != null) ? category.setParent(parent) : 0;
 
-        if (parent != null) {
-            category.setParent(parent);
-        }
         Category saveCategory = categoryRepository.save(category);
-        return ResCategorySaveDto.fromEntity(saveCategory);
+        return ResCategorySaveDto.fromEntity(saveCategory, parentId);
     }
 
+    // 부모 카테고리 찾기
     private Category getParentCategory(Long parentId) {
-        if (parentId != null) {
+        if (parentId != null && parentId != 0) {
             return categoryRepository.findById(parentId)
                     .orElseThrow(() -> new IllegalArgumentException("Parent category not found."));
         }
