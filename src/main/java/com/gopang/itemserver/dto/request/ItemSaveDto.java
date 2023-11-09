@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  * -Request
@@ -25,18 +24,18 @@ public class ItemSaveDto {
     private Long sellerREId;
 
     private String titleName;
-    private String sellerName;
+    private String itemLabel;
     private String sellState;
     private LocalDate sellStartDate;
     private LocalDate sellEndDate;
 
     @Builder
-    public ItemSaveDto(Long sellerId, Long sellerDeliveryId, Long sellerREId, String titleName, String sellerName, String sellState, LocalDate sellStartDate, LocalDate sellEndDate) {
+    public ItemSaveDto(Long sellerId, Long sellerDeliveryId, Long sellerREId, String titleName, String itemLabel, String sellState, LocalDate sellStartDate, LocalDate sellEndDate) {
         this.sellerId = sellerId;
         this.sellerDeliveryId = sellerDeliveryId;
         this.sellerREId = sellerREId;
         this.titleName = titleName;
-        this.sellerName = sellerName;
+        this.itemLabel = itemLabel;
         this.sellState = sellState;
         this.sellStartDate = sellStartDate;
         this.sellEndDate = sellEndDate;
@@ -48,7 +47,7 @@ public class ItemSaveDto {
                 .sellerDeliveryId(dto.sellerDeliveryId)
                 .sellerREId(dto.sellerREId)
                 .titleName(dto.titleName)
-                .sellerName(dto.sellerName)
+                .itemLabel(dto.itemLabel)
                 .state(SellState.valueOf(dto.sellState))
                 .sellStartDate(dto.sellStartDate)
                 .sellEndDate(dto.sellEndDate)

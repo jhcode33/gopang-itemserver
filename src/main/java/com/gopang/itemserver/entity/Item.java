@@ -2,13 +2,11 @@ package com.gopang.itemserver.entity;
 
 import com.gopang.itemserver.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +26,8 @@ public class Item extends BaseTimeEntity {
     @Column(name = "title_name", length = 100)
     private String titleName;
 
-    @Column(name = "seller_name", length = 100)
-    private String sellerName;
+    @Column(name = "item_Label", length = 100)
+    private String itemLabel;
 
     @Enumerated(EnumType.STRING)
     private SellState state;
@@ -50,6 +48,7 @@ public class Item extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // Builder로 생성하면 List가 null로 초기화 -> Builder.Default로 List로 초기화시킴
     @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
@@ -71,10 +70,10 @@ public class Item extends BaseTimeEntity {
 //    @JoinColumn(name = "description_file_id", unique = true)
 //    public DescriptionFile descriptionFile;
     @Builder
-    public Item(Long itemId, String titleName, String sellerName, SellState state, LocalDate sellStartDate, LocalDate sellEndDate, Long sellerId, Long sellerDeliveryId, Long sellerREId, Category category, List<ImageFile> images, List<ItemOption> options, List<BrandManufacturer> brandManufacturer) {
+    public Item(Long itemId, String titleName, String itemLabel, SellState state, LocalDate sellStartDate, LocalDate sellEndDate, Long sellerId, Long sellerDeliveryId, Long sellerREId, Category category, List<ImageFile> images, List<ItemOption> options, List<BrandManufacturer> brandManufacturer) {
         this.itemId = itemId;
         this.titleName = titleName;
-        this.sellerName = sellerName;
+        this.itemLabel = itemLabel;
         this.state = state;
         this.sellStartDate = sellStartDate;
         this.sellEndDate = sellEndDate;

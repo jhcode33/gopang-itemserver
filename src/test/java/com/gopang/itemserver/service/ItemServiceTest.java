@@ -1,9 +1,6 @@
 package com.gopang.itemserver.service;
 
-import com.gopang.itemserver.dto.request.BrandManufacturerSaveDto;
-import com.gopang.itemserver.dto.request.ItemDetailSaveDto;
-import com.gopang.itemserver.dto.request.ItemOptionSaveDto;
-import com.gopang.itemserver.dto.request.ItemSaveDto;
+import com.gopang.itemserver.dto.request.*;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.entity.Category;
 import com.gopang.itemserver.repository.CategoryRepository;
@@ -51,13 +48,14 @@ public class ItemServiceTest {
     @Test
     public void saveItemTest() {
         // when
-        Long sellerId = 1L;
-        Long sellerDeliveryId = 2L;
-        Long sellerREId = 3L;
+        SellerInfo sellerInfo = new SellerInfo();
+        sellerInfo.setSellerId(1L);
+        sellerInfo.setSellerDeliveryId(2L);
+        sellerInfo.setSellerREId(3L);
         Long categoryId = 4L;
 
         // given
-        ResItemSaveDto resItemSaveDto = itemService.save(sellerId, sellerDeliveryId, sellerREId, categoryId,
+        ResItemSaveDto resItemSaveDto = itemService.save(categoryId, sellerInfo,
                 itemSaveDto, itemDetailSaveDto, itemOptionSaveDto, brandManufacturerSaveDto);
 
         // then
@@ -84,7 +82,7 @@ public class ItemServiceTest {
                 .sellerDeliveryId(2L)
                 .sellerREId(3L)
                 .titleName("Sample Item")
-                .sellerName("Sample Seller")
+                .itemLabel("Sample Seller")
                 .sellState("판매중")
                 .sellStartDate(LocalDate.now())
                 .sellEndDate(LocalDate.now().plusDays(30))
