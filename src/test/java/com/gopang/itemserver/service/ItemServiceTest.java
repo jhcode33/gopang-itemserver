@@ -1,6 +1,6 @@
 package com.gopang.itemserver.service;
 
-import com.gopang.itemserver.dto.request.*;
+import com.gopang.itemserver.dto.request.item.*;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.entity.Category;
 import com.gopang.itemserver.repository.CategoryRepository;
@@ -8,23 +8,26 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-//@Transactional
+@Transactional
 public class ItemServiceTest {
 
     @Autowired
     private ItemService itemService;
 
-    @Autowired
+    @Mock
     private CategoryRepository categoryRepository;
 
     ItemSaveDto itemSaveDto;
@@ -32,17 +35,9 @@ public class ItemServiceTest {
     ItemOptionSaveDto itemOptionSaveDto;
     BrandManufacturerSaveDto brandManufacturerSaveDto;
 
-    Category rootCategory;
-    Category childCategory1;
-    Category childCategory2;
-    Category grandchildCategory1;
-    Category grandchildCategory2;
-    Category grandchildCategory3;
-
     @BeforeEach
     public void setUp() {
         itemDataSet();
-        categoryDataSet();
     }
 
     @Test
@@ -54,6 +49,9 @@ public class ItemServiceTest {
         sellerInfo.setSellerREId(3L);
         Long categoryId = 4L;
 
+        // Mocking: categoryRepository.findById()가 호출될 때 반환할 값을 지정
+        when(categoryRepository.findById(4L)).thenReturn(Optional.of(new Category()));
+
         // given
         ResItemSaveDto resItemSaveDto = itemService.save(categoryId, sellerInfo,
                 itemSaveDto, itemDetailSaveDto, itemOptionSaveDto, brandManufacturerSaveDto);
@@ -61,19 +59,6 @@ public class ItemServiceTest {
         // then
         assertEquals(itemSaveDto.getTitleName(), resItemSaveDto.getTitleName()); // 예시로 아이템 타이틀 검증
 
-    }
-
-    @Test
-    public void saveCategoryTest() {
-        // when
-        // given
-        // then
-        categoryRepository.save(rootCategory);
-        categoryRepository.save(childCategory1);
-        categoryRepository.save(childCategory2);
-        categoryRepository.save(grandchildCategory1);
-        categoryRepository.save(grandchildCategory2);
-        categoryRepository.save(grandchildCategory3);
     }
 
     private void itemDataSet() {
@@ -115,43 +100,5 @@ public class ItemServiceTest {
                 .brandName("Sample Brand")
                 .manufacturerName("Sample Manufacturer")
                 .build();
-    }
-    private void categoryDataSet() {
-        // Category 엔티티를 생성하고 예시 데이터를 추가하는 코드
-        rootCategory = new Category();
-        rootCategory.setName("Root Category");
-        rootCategory.setDepth(0L);
-
-        childCategory1 = new Category();
-        childCategory1.setName("Child Category 1");
-        childCategory1.setDepth(1L);
-        childCategory1.setParent(rootCategory);
-
-        childCategory2 = new Category();
-        childCategory2.setName("Child Category 2");
-        childCategory2.setDepth(1L);
-        childCategory2.setParent(rootCategory);
-
-        grandchildCategory1 = new Category();
-        grandchildCategory1.setName("Grandchild Category 1");
-        grandchildCategory1.setDepth(2L);
-        grandchildCategory1.setParent(childCategory1);
-
-        grandchildCategory2 = new Category();
-        grandchildCategory2.setName("Grandchild Category 2");
-        grandchildCategory2.setDepth(2L);
-        grandchildCategory2.setParent(childCategory1);
-
-        grandchildCategory3 = new Category();
-        grandchildCategory3.setName("Grandchild Category 3");
-        grandchildCategory3.setDepth(2L);
-        grandchildCategory3.setParent(childCategory2);
-
-        // Category 엔티티 간의 연관관계 설정
-        rootCategory.getChild().add(childCategory1);
-        rootCategory.getChild().add(childCategory2);
-        childCategory1.getChild().add(grandchildCategory1);
-        childCategory1.getChild().add(grandchildCategory2);
-        childCategory2.getChild().add(grandchildCategory3);
     }
 }

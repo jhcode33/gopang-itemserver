@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request;
+package com.gopang.itemserver.dto.request.item;
 
 import com.gopang.itemserver.entity.Item;
 import com.gopang.itemserver.entity.Item.SellState;

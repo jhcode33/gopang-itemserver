@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request;
+package com.gopang.itemserver.dto.request.item;
 
 import com.gopang.itemserver.entity.ItemDetail;
 import com.gopang.itemserver.entity.ItemDetail.MinorType;
