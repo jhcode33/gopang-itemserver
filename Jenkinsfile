@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    environment {
-        // Java 버전을 지정
-        JAVA_HOME = '/path/to/your/java/11'
-    }
     stages {
         stage('Checkout') {
             steps {
