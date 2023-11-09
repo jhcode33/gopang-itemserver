@@ -5,7 +5,7 @@ pipeline {
             steps {
                 git branch: 'main',
                         credentialsId: 'github_access_token',
-                        url: 'https://github.com/JavaBrewer/testjos2.git'
+                        url: 'https://github.com/ProjectGopang/conn_test.git'
             }
         }
 
