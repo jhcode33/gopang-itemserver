@@ -21,19 +21,19 @@ public class ItemService {
 
     // 판매자 id, 판매자 배송 정보 id, 판매자 환불 정보 id, 카테고리 id
     // 판매자 배송, 환불 정보x
-    public ResItemSaveDto save(Long categoryId,
-                               SellerInfo sellerInfo,
-                               ItemSaveDto itemSaveDto,
-                               ItemDetailSaveDto itemDetailDto,
-                               ItemOptionSaveDto itemOptionDto,
-                               BrandManufacturerSaveDto brandManuDto) {
+    public ResItemSaveDto save(SellerInfo sellerInfo, ItemSaveRequest itemSaveRequest) {
+        Long categoryId = itemSaveRequest.getCategoryId();
+        ItemSaveDto itemDto = itemSaveRequest.getItemSaveDto();
+        ItemDetailSaveDto itemDetailDto = itemSaveRequest.getItemDetailSaveDto();
+        ItemOptionSaveDto itemOptionDto = itemSaveRequest.getItemOptionSaveDto();
+        BrandManufacturerSaveDto brandManuDto = itemSaveRequest.getBrandManufacturerSaveDto();
 
         Category category = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("Not Found")
         );
 
-        itemSaveDto.setSellerInfo(sellerInfo.getSellerId(), sellerInfo.getSellerDeliveryId(), sellerInfo.getSellerREId());
-        Item item = ItemSaveDto.ofEntity(itemSaveDto);
+        itemDto.setSellerInfo(sellerInfo.getSellerId(), sellerInfo.getSellerDeliveryId(), sellerInfo.getSellerREId());
+        Item item = ItemSaveDto.ofEntity(itemDto);
         item.setCategory(category);
         itemRepository.save(item);
 

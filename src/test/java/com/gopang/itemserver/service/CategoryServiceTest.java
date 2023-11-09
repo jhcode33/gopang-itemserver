@@ -2,7 +2,6 @@ package com.gopang.itemserver.service;
 
 import com.gopang.itemserver.dto.request.category.CategorySaveDto;
 import com.gopang.itemserver.dto.response.ResCategorySaveDto;
-import com.gopang.itemserver.entity.Category;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

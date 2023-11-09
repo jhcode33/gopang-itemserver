@@ -27,17 +27,7 @@ public class ItemController {
         sellerInfo.setSellerDeliveryId(2L);
         sellerInfo.setSellerREId(3L);
 
-        // Front에서 카테고리 분류를 선택하고 해당 ID 값을 같이 넘겨줌
-        // categoryId = 4L;
-
-        ResItemSaveDto itemSave = itemService.save(
-                itemRequest.getCategoryId(),
-                sellerInfo,
-                itemRequest.getItemSaveDto(),
-                itemRequest.getItemDetailSaveDto(),
-                itemRequest.getItemOptionSaveDto(),
-                itemRequest.getBrandManufacturerSaveDto());
-
+        ResItemSaveDto itemSave = itemService.save(sellerInfo, itemRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(itemSave);
