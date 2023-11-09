@@ -9,11 +9,21 @@ pipeline {
             }
         }
 
+        stage('Prepare Workspace') {
+            steps {
+                script {
+                    // Gradle Wrapper 실행 권한 추가
+                    sh 'chmod +x gradlew'
+                }
+            }
+        }
+
         stage('Gradle Build') {
             steps {
-                sh'''
-                    ./gradlew clean build
-                '''
+                script {
+                    // Gradle 빌드 실행
+                    sh './gradlew clean build'
+                }
             }
         }
     }
