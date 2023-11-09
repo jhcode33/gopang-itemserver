@@ -1,9 +1,6 @@
 package com.gopang.itemserver.service;
 
-import com.gopang.itemserver.dto.request.BrandManufacturerSaveDto;
-import com.gopang.itemserver.dto.request.ItemDetailSaveDto;
-import com.gopang.itemserver.dto.request.ItemOptionSaveDto;
-import com.gopang.itemserver.dto.request.ItemSaveDto;
+import com.gopang.itemserver.dto.request.*;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.entity.*;
 import com.gopang.itemserver.repository.*;
@@ -24,7 +21,8 @@ public class ItemService {
 
     // 판매자 id, 판매자 배송 정보 id, 판매자 환불 정보 id, 카테고리 id
     // 판매자 배송, 환불 정보x
-    public ResItemSaveDto save(Long sellerId, Long sellerDeliveryId, Long sellerREId, Long categoryId,
+    public ResItemSaveDto save(Long categoryId,
+                               SellerInfo sellerInfo,
                                ItemSaveDto itemSaveDto,
                                ItemDetailSaveDto itemDetailDto,
                                ItemOptionSaveDto itemOptionDto,
@@ -34,7 +32,7 @@ public class ItemService {
                 () -> new IllegalArgumentException("Not Found")
         );
 
-        itemSaveDto.setSellerInfo(sellerId, sellerDeliveryId, sellerREId);
+        itemSaveDto.setSellerInfo(sellerInfo.getSellerId(), sellerInfo.getSellerDeliveryId(), sellerInfo.getSellerREId());
         Item item = ItemSaveDto.ofEntity(itemSaveDto);
         item.setCategory(category);
         itemRepository.save(item);
@@ -50,7 +48,6 @@ public class ItemService {
         BrandManufacturer brandManufacturer = BrandManufacturerSaveDto.ofEntity(brandManuDto);
         brandManufacturer.setItem(item);
         brandManufacturerRepository.save(brandManufacturer);
-
 
         return ResItemSaveDto.fromEntity(item);
     }

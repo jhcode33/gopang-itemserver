@@ -1,15 +1,12 @@
 package com.gopang.itemserver.dto.response;
 
 import com.gopang.itemserver.entity.*;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * -Response
@@ -49,7 +46,7 @@ public class ResItemSaveDto {
         return ResItemSaveDto.builder()
                 .itemId(item.getItemId())
                 .titleName(item.getTitleName())
-                .sellerName(item.getSellerName())
+                .sellerName(item.getItemLabel())
                 .state(item.getState().toString())
                 .sellStartDate(item.getSellStartDate())
                 .sellEndDate(item.getSellEndDate())
