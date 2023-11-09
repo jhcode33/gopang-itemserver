@@ -1,14 +1,13 @@
 package com.gopang.itemserver.controller;
 
-import com.gopang.itemserver.dto.request.*;
+import com.gopang.itemserver.dto.request.item.ItemSaveRequest;
+import com.gopang.itemserver.dto.request.item.SellerInfo;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
-import com.gopang.itemserver.entity.Category;
 import com.gopang.itemserver.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/v1")

@@ -1,6 +1,6 @@
 package com.gopang.itemserver.service;
 
-import com.gopang.itemserver.dto.request.*;
+import com.gopang.itemserver.dto.request.item.*;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.entity.*;
 import com.gopang.itemserver.repository.*;

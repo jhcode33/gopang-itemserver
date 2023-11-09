@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request;
+package com.gopang.itemserver.dto.request.item;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,7 @@
-package com.gopang.itemserver.dto.request;
+package com.gopang.itemserver.dto.request.item;
 
 
 import com.gopang.itemserver.entity.BrandManufacturer;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
