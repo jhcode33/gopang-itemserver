@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    tools {
+        // 위에서 설정한 JDK를 사용하도록 지정
+        jdk 'Java11'
+    }
     stages {
         stage('Checkout') {
             steps {
