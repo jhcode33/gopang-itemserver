@@ -54,10 +54,32 @@ public class Category extends BaseTimeEntity {
         item.setCategory(this); // 양방향 연관관계 설정
     }
 
-    public Long setParent(Category parent) {
-        this.parent = parent;
-        parent.getChild().add(this);
-        return parent.getCategoryId();
+    public Long setParent(Category newParent) {
+        // 현재 객체가 부모가 없는 경우, 새로운 연관관계를 설정
+        if (this.parent == null) {
+            this.parent = newParent;
+            newParent.getChild().add(this);
+            return newParent.getCategoryId();
+        }
+
+        // 현재 객체가 이미 부모가 있는 경우
+        // 기존 부모와 새로운 부모가 다를 경우에만 처리
+        if (!this.parent.equals(newParent)) {
+            Category oldParent = this.parent;
+            this.parent = null;
+            oldParent.getChild().remove(this);
+
+            // 새로운 부모와 연관관계 설정
+            this.parent = newParent;
+            newParent.getChild().add(this);
+            return newParent.getCategoryId();
+        }
+        return this.parent.getCategoryId();
     }
 
+
+    public void update(String name, Long depth) {
+        this.name = name;
+        this.depth = depth;
+    }
 }

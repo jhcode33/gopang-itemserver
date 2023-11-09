@@ -1,7 +1,7 @@
 package com.gopang.itemserver.service;
 
 import com.gopang.itemserver.dto.request.category.CategorySaveDto;
-import com.gopang.itemserver.dto.response.ResCategorySaveDto;
+import com.gopang.itemserver.dto.response.ResCategoryDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,12 +37,12 @@ public class CategoryServiceTest {
         // when
 
         // given
-        ResCategorySaveDto rootCategoryDto = categoryService.save(rootCategory);
-        ResCategorySaveDto childCategoryDto1 = categoryService.save(childCategory1);
-        ResCategorySaveDto childCategoryDto2 = categoryService.save(childCategory2);
-        ResCategorySaveDto grandchildCategoryDto1 = categoryService.save(grandchildCategory1);
-        ResCategorySaveDto grandchildCategoryDto2 = categoryService.save(grandchildCategory2);
-        ResCategorySaveDto grandchildCategoryDto3 = categoryService.save(grandchildCategory3);
+        ResCategoryDto rootCategoryDto = categoryService.save(rootCategory);
+        ResCategoryDto childCategoryDto1 = categoryService.save(childCategory1);
+        ResCategoryDto childCategoryDto2 = categoryService.save(childCategory2);
+        ResCategoryDto grandchildCategoryDto1 = categoryService.save(grandchildCategory1);
+        ResCategoryDto grandchildCategoryDto2 = categoryService.save(grandchildCategory2);
+        ResCategoryDto grandchildCategoryDto3 = categoryService.save(grandchildCategory3);
 
         // then
         assertEquals(rootCategoryDto.getName(), rootCategory.getName());
