@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                        credentialsId: 'github_access_token',
+                        credentialsId: 'gopang',
                         url: 'https://github.com/ProjectGopang/conn_test.git'
             }
         }
