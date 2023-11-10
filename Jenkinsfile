@@ -1,8 +1,9 @@
 pipeline {
     agent any
     tools {
-        // Specify the JDK tool installation
-        jdk 'openjdk-17'
+        // 위에서 설정한 JDK를 사용하도록 지정
+        jdk 'Java17'
+        // Gradle을 7.3.3 버전으로 설정 (원하는 버전으로 변경 가능)
         gradle 'gradle-7.4.2'
     }
     stages {
@@ -17,7 +18,7 @@ pipeline {
         stage('Prepare Workspace') {
             steps {
                 script {
-                    // Gradle Wrapper execution permission
+                    // Gradle Wrapper 실행 권한 추가
                     sh 'chmod +x gradlew'
                 }
             }
@@ -26,7 +27,7 @@ pipeline {
         stage('Gradle Build') {
             steps {
                 script {
-                    // Run Gradle build
+                    // Gradle 빌드 실행
                     sh './gradlew clean build'
                 }
             }
