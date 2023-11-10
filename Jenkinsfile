@@ -3,8 +3,6 @@ pipeline {
     tools {
         // 위에서 설정한 JDK를 사용하도록 지정
         jdk 'openjdk-17'
-        // Gradle을 7.3.3 버전으로 설정 (원하는 버전으로 변경 가능)
-        gradle 'gradle-7.4.2'
     }
     stages {
         stage('Checkout') {
