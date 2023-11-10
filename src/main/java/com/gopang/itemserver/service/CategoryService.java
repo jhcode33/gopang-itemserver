@@ -3,11 +3,15 @@ package com.gopang.itemserver.service;
 import com.gopang.itemserver.dto.request.category.CategorySaveDto;
 import com.gopang.itemserver.dto.request.category.CategoryUpdateDto;
 import com.gopang.itemserver.dto.response.ResCategoryDto;
+import com.gopang.itemserver.dto.response.ResCategoryListDto;
 import com.gopang.itemserver.entity.Category;
 import com.gopang.itemserver.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +19,13 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+    public List<ResCategoryListDto> findAll() {
+        List<ResCategoryListDto> list = categoryRepository.findListAll().stream()
+                .map(ResCategoryListDto::fromEntity)
+                .collect(Collectors.toList());
+        return list;
+    }
 
     public ResCategoryDto save(CategorySaveDto saveDto) {
         Category parent = getParentCategory(saveDto.getParentId());
