@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -37,6 +38,8 @@ public class ItemServiceTest {
 
     @BeforeEach
     public void setUp() {
+        // 스프링 컨테이너에서 받은 CategoryRepository가 아닌, Mock 객체를 직접 주입해서 사용
+        ReflectionTestUtils.setField(itemService, "categoryRepository", categoryRepository);
         itemDataSet();
     }
 
@@ -50,11 +53,16 @@ public class ItemServiceTest {
         Long categoryId = 4L;
 
         // Mocking: categoryRepository.findById()가 호출될 때 반환할 값을 지정
-        when(categoryRepository.findById(4L)).thenReturn(Optional.of(new Category()));
+        when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(new Category()));
+        ItemSaveRequest itemSaveRequest = new ItemSaveRequest();
+        itemSaveRequest.setItemSaveDto(itemSaveDto);
+        itemSaveRequest.setItemOptionSaveDto(itemOptionSaveDto);
+        itemSaveRequest.setItemDetailSaveDto(itemDetailSaveDto);
+        itemSaveRequest.setBrandManufacturerSaveDto(brandManufacturerSaveDto);
+        itemSaveRequest.setCategoryId(categoryId);
 
         // given
-        ResItemSaveDto resItemSaveDto = itemService.save(categoryId, sellerInfo,
-                itemSaveDto, itemDetailSaveDto, itemOptionSaveDto, brandManufacturerSaveDto);
+        ResItemSaveDto resItemSaveDto = itemService.save(sellerInfo, itemSaveRequest);
 
         // then
         assertEquals(itemSaveDto.getTitleName(), resItemSaveDto.getTitleName()); // 예시로 아이템 타이틀 검증
