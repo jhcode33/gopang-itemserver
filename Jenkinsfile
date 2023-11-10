@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    environment {
-        // Java 버전을 지정
-        JAVA_HOME = '/path/to/your/java/11'
+    tools {
+        // Specify the JDK tool installation
+        jdk 'openjdk-17'
     }
     stages {
         stage('Checkout') {
@@ -16,7 +16,7 @@ pipeline {
         stage('Prepare Workspace') {
             steps {
                 script {
-                    // Gradle Wrapper 실행 권한 추가
+                    // Gradle Wrapper execution permission
                     sh 'chmod +x gradlew'
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
         stage('Gradle Build') {
             steps {
                 script {
-                    // Gradle 빌드 실행
+                    // Run Gradle build
                     sh './gradlew clean build'
                 }
             }
