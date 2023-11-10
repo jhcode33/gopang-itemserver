@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request.item;
+package com.gopang.itemserver.dto.request.item.save;
 
 import com.gopang.itemserver.entity.Item;
 import com.gopang.itemserver.entity.Item.SellState;
@@ -23,6 +23,7 @@ public class ItemSaveDto {
     private Long sellerDeliveryId;
     private Long sellerREId;
 
+    private Long itemId;
     private String titleName;
     private String itemLabel;
     private String sellState;

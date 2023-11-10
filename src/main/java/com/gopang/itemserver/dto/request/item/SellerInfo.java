@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * -Request
+ * 판매자 정보
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -1,9 +1,13 @@
-package com.gopang.itemserver.dto.request.item;
+package com.gopang.itemserver.dto.request.item.save;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * -Request
+ * 판매자 상품 등록 정보들
+ */
 @Getter
 @Setter
 @NoArgsConstructor

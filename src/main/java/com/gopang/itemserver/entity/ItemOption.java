@@ -1,5 +1,6 @@
 package com.gopang.itemserver.entity;
 
+import com.gopang.itemserver.dto.request.item.update.ItemOptionUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,5 +66,16 @@ public class ItemOption {
     public void setItem(Item item) {
         this.item = item;
         item.getOptions().add(this); // 양방향 연관관계 설정
+    }
+
+    public void update(ItemOptionUpdateDto dto) {
+        this.itemModelName = dto.getItemModelName();
+        this.sellerItemNumber = dto.getSellerItemNumber();
+        this.optionName = dto.getOptionName();
+        this.sellAmount = dto.getSellAmount();
+        this.normalCost = dto.getNormalCost();
+        this.discountCost = dto.getDiscountCost();
+        this.sellCost = dto.getSellCost();
+        this.inventoryAmount = dto.getInventoryAmount();
     }
 }

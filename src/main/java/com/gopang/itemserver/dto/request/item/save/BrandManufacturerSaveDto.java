@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request.item;
+package com.gopang.itemserver.dto.request.item.save;
 
 
 import com.gopang.itemserver.entity.BrandManufacturer;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 /**
  * -Request
- * 브랜드 제조사 정보
+ * 브랜드 제조사 등록 정보
  */
 @Getter
 @Setter
