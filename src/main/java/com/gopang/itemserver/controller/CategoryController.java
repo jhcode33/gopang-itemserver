@@ -38,4 +38,14 @@ public class CategoryController {
                 .status(HttpStatus.OK)
                 .body(category);
     }
+
+    @DeleteMapping("/category/{categoryId}")
+    public ResponseEntity<Long> delete(
+            @PathVariable("categoryId") Long categoryId) {
+
+        categoryService.delete(categoryId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }

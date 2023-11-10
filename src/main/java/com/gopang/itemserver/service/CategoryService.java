@@ -38,6 +38,10 @@ public class CategoryService {
         return ResCategoryDto.fromEntity(updateCategory, parentId);
     }
 
+    public void delete(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+    }
+
     // 부모 카테고리 찾기
     private Category getParentCategory(Long parentId) {
         if (parentId != null && parentId != 0) {
