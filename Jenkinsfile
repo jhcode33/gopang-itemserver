@@ -3,6 +3,7 @@ pipeline {
     tools {
         // Specify the JDK tool installation
         jdk 'openjdk-17'
+        gradle 'gradle-7.4.2'
     }
     stages {
         stage('Checkout') {
