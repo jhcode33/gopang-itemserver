@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:3.1.2' // 업데이트 필요
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:3.1.2'
     }
 }
 
