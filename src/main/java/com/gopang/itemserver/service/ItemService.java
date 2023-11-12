@@ -3,6 +3,7 @@ package com.gopang.itemserver.service;
 import com.gopang.itemserver.dto.request.item.SellerInfo;
 import com.gopang.itemserver.dto.request.item.save.*;
 import com.gopang.itemserver.dto.request.item.update.*;
+import com.gopang.itemserver.dto.response.ResItem;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.dto.response.ResItemUpdateDto;
 import com.gopang.itemserver.entity.*;
@@ -24,6 +25,25 @@ public class ItemService {
     private final ItemOptionRepository itemOptionRepository;
     private final BrandManufacturerRepository brandManufacturerRepository;
     private final CategoryRepository categoryRepository;
+
+    public List<ResItem> findMainItemList() {
+        List<Item> itemList = itemRepository.findAll();
+        List<ResItem> resItemList = new ArrayList<>();
+
+        for (Item item : itemList) {
+            for (ItemOption option : item.getOptions()) {
+                ResItem resItem = ResItem.builder()
+                        .itemId(item.getItemId())
+                        .itemTitleName(item.getTitleName())
+                        .itemOptionName(option.getOptionName())
+                        .sellAmount(option.getSellAmount())
+                        .sellCost(option.getSellCost())
+                        .build();
+                resItemList.add(resItem);
+            }
+        }
+        return resItemList;
+    }
 
     // 판매자 id, 판매자 배송 정보 id, 판매자 환불 정보 id, 카테고리 id
     // 판매자 배송, 환불 정보x
@@ -124,4 +144,5 @@ public class ItemService {
         brandManu.update(dto);
         return brandManu;
     }
+
 }
