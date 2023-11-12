@@ -1,11 +1,8 @@
 package com.gopang.itemserver.service;
 
-import com.gopang.itemserver.dto.request.item.*;
+import com.gopang.itemserver.dto.request.item.SellerInfo;
 import com.gopang.itemserver.dto.request.item.save.*;
-import com.gopang.itemserver.dto.request.item.update.BrandManufacturerUpdateDto;
-import com.gopang.itemserver.dto.request.item.update.ItemDetailUpdateDto;
-import com.gopang.itemserver.dto.request.item.update.ItemOptionUpdateDto;
-import com.gopang.itemserver.dto.request.item.update.ItemUpdateRequest;
+import com.gopang.itemserver.dto.request.item.update.*;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.dto.response.ResItemUpdateDto;
 import com.gopang.itemserver.entity.*;
@@ -14,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,7 +31,7 @@ public class ItemService {
         Long categoryId = itemSaveRequest.getCategoryId();
         ItemSaveDto itemDto = itemSaveRequest.getItemSaveDto();
         ItemDetailSaveDto itemDetailDto = itemSaveRequest.getItemDetailSaveDto();
-        ItemOptionSaveDto itemOptionDto = itemSaveRequest.getItemOptionSaveDto();
+        List<ItemOptionSaveDto> itemOptionDtoList = itemSaveRequest.getItemOptionSaveDtoList();
         BrandManufacturerSaveDto brandManuDto = itemSaveRequest.getBrandManufacturerSaveDto();
 
         Category category = categoryRepository.findById(categoryId).orElseThrow(
@@ -49,19 +47,29 @@ public class ItemService {
         itemDetail.setItem(item);
         itemDetailRepository.save(itemDetail);
 
-        ItemOption itemOption = ItemOptionSaveDto.ofEntity(itemOptionDto);
-        itemOption.setItem(item);
-        itemOptionRepository.save(itemOption);
+        List<Long> itemOptionIds = new ArrayList<>();
+        for (ItemOptionSaveDto itemOptionSaveDto : itemOptionDtoList) {
+            ItemOption itemOption = ItemOptionSaveDto.ofEntity(itemOptionSaveDto);
+            itemOption.setItem(item);
+            itemOptionRepository.save(itemOption);
+            itemOptionIds.add(itemOption.getItemOptionId());
+        }
 
         BrandManufacturer brandManufacturer = BrandManufacturerSaveDto.ofEntity(brandManuDto);
         brandManufacturer.setItem(item);
         brandManufacturerRepository.save(brandManufacturer);
 
-        return ResItemSaveDto.fromEntity(item);
+        return ResItemSaveDto.fromEntity(item, itemDetail.getItemDetailId(), itemOptionIds, brandManufacturer.getBrandManufacturerId());
     }
 
     public ResItemUpdateDto update(SellerInfo sellerInfo, ItemUpdateRequest itemRequest) {
         Long categoryId = itemRequest.getCategoryId();
+        ItemUpdateDto itemUpdateDto = itemRequest.getItemUpdateDto();
+        ItemDetailUpdateDto itemDetailUpdateDto = itemRequest.getItemDetailUpdateDto();
+        List<ItemOptionUpdateDto> itemOptionUpdateDtoList = itemRequest.getItemOptionUpdateDtoList();
+        BrandManufacturerUpdateDto brandManuUpdateDto = itemRequest.getBrandManufacturerUpdateDto();
+
+        itemUpdateDto.setSellerInfo(sellerInfo.getSellerId(), sellerInfo.getSellerDeliveryId(), sellerInfo.getSellerREId());
 
         Category newCategory = categoryRepository.findById(categoryId).orElseThrow(
                 () -> new IllegalArgumentException("Not Found")
@@ -71,11 +79,24 @@ public class ItemService {
                 () -> new IllegalArgumentException("Item not found")
         );
 
-        ItemDetail itemDetail = updateItemDetail(itemRequest.getItemDetailUpdateDto());
-        ItemOption itemOption = updateOption(item, itemRequest.getItemOptionUpdateDto());
-        BrandManufacturer brandManu = updateBrandManu(item, itemRequest.getBrandManufacturerUpdateDto());
 
+        List<ItemOption> itemOptionList = item.getOptions();
+        for (ItemOptionUpdateDto itemOptionUpdateDto : itemOptionUpdateDtoList) {
+            updateOptionList(itemOptionList, itemOptionUpdateDto);
+        }
 
+        List<Long> itemOptionIds = itemOptionList.stream()
+                .map(ItemOption::getItemOptionId)
+                .toList();
+
+        ItemDetail updatedItemDetail = updateItemDetail(itemDetailUpdateDto);
+        BrandManufacturer updatedBrandManu = updateBrandManu(brandManuUpdateDto);
+        item.update(newCategory, itemUpdateDto, updatedItemDetail, itemOptionList, updatedBrandManu);
+
+        return ResItemUpdateDto.fromEntity(item,
+                updatedItemDetail.getItemDetailId(),
+                itemOptionIds,
+                updatedBrandManu.getBrandManufacturerId());
 
     }
 
@@ -87,25 +108,20 @@ public class ItemService {
         return itemDetail;
     }
 
-    private ItemOption updateOption(Item item, ItemOptionUpdateDto dto) {
-        for (ItemOption option : item.getOptions()) {
+    private void updateOptionList(List<ItemOption> optionList, ItemOptionUpdateDto dto) {
+        for (ItemOption option : optionList) {
             Long updateOptionId = dto.getItemOptionId();
             if (option.getItemOptionId() == updateOptionId) {
                 option.update(dto);
-                return option;
             }
         }
-        return null;
     }
 
-    private BrandManufacturer updateBrandManu(Item item, BrandManufacturerUpdateDto dto) {
-        for (BrandManufacturer brandManu : item.getBrandManufacturer()) {
-            Long brandManuId = dto.getBrandManuId();
-            if (brandManu.getBrandManufacturerId() == brandManuId) {
-                brandManu.update(dto);
-                return brandManu;
-            }
-        }
-        return null;
+    private BrandManufacturer updateBrandManu(BrandManufacturerUpdateDto dto) {
+        BrandManufacturer brandManu = brandManufacturerRepository.findById(dto.getBrandManufacturerId()).orElseThrow(
+                () -> new IllegalArgumentException(("ItemDetail not found"))
+        );
+        brandManu.update(dto);
+        return brandManu;
     }
 }

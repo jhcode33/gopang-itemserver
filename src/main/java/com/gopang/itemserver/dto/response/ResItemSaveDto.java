@@ -1,12 +1,13 @@
 package com.gopang.itemserver.dto.response;
 
-import com.gopang.itemserver.entity.*;
+import com.gopang.itemserver.entity.Item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * -Response
@@ -29,8 +30,12 @@ public class ResItemSaveDto {
     private Long sellerDeliveryId;
     private Long sellerREId;
 
+    private Long itemDetailId;
+    private List<Long> itemOptionIds;
+    private Long brandManufacturerIds;
+
     @Builder
-    public ResItemSaveDto(Long itemId, String titleName, String sellerName, String state, LocalDate sellStartDate, LocalDate sellEndDate, Long sellerId, Long sellerDeliveryId, Long sellerREId) {
+    public ResItemSaveDto(Long itemId, String titleName, String sellerName, String state, LocalDate sellStartDate, LocalDate sellEndDate, Long sellerId, Long sellerDeliveryId, Long sellerREId, Long itemDetailId, List<Long> itemOptionIds, Long brandManufacturerIds) {
         this.itemId = itemId;
         this.titleName = titleName;
         this.sellerName = sellerName;
@@ -40,9 +45,12 @@ public class ResItemSaveDto {
         this.sellerId = sellerId;
         this.sellerDeliveryId = sellerDeliveryId;
         this.sellerREId = sellerREId;
+        this.itemDetailId = itemDetailId;
+        this.itemOptionIds = itemOptionIds;
+        this.brandManufacturerIds = brandManufacturerIds;
     }
 
-    public static ResItemSaveDto fromEntity(Item item) {
+    public static ResItemSaveDto fromEntity(Item item, Long itemDetailId, List<Long> itemOptionIds, Long brandManufacturerIds) {
         return ResItemSaveDto.builder()
                 .itemId(item.getItemId())
                 .titleName(item.getTitleName())
@@ -53,6 +61,10 @@ public class ResItemSaveDto {
                 .sellerId(item.getSellerId())
                 .sellerDeliveryId(item.getSellerDeliveryId())
                 .sellerREId(item.getSellerREId())
+
+                .itemDetailId(itemDetailId)
+                .itemOptionIds(itemOptionIds)
+                .brandManufacturerIds(brandManufacturerIds)
                 .build();
     }
 }

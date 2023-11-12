@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * -Request
  * 판매자 상품 등록 정보들
@@ -15,6 +17,6 @@ public class ItemSaveRequest {
     private Long categoryId;
     private ItemSaveDto itemSaveDto;
     private ItemDetailSaveDto itemDetailSaveDto;
-    private ItemOptionSaveDto itemOptionSaveDto;
+    private List<ItemOptionSaveDto> itemOptionSaveDtoList;
     private BrandManufacturerSaveDto brandManufacturerSaveDto;
 }

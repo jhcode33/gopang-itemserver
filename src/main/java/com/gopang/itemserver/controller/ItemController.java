@@ -35,7 +35,7 @@ public class ItemController {
                 .body(itemSave);
     }
 
-    //등록한 판매자일 경우에만 수정할 수 있도록 해야하지 않겠니? 굳이? 안그러도되거든?
+    //등록한 판매자일 경우에만 수정할 수 있도록 해야하지 않겠니?
     @PutMapping("/seller/item/{itemId}")
     public ResponseEntity<ResItemUpdateDto> update(
             @PathVariable Long itemId,

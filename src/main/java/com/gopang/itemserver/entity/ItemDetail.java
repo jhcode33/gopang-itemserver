@@ -17,7 +17,8 @@ public class ItemDetail extends BaseTimeEntity {
     public enum MinorType { 미성년자구입, 미성년자불가 }
     public enum TaxType { 과세, 면세 }
 
-    @Id
+    @Id @GeneratedValue
+    @Column(name = "item_detail_id")
     private Long ItemDetailId;
 
     @Column(name = "max_order")
@@ -50,7 +51,7 @@ public class ItemDetail extends BaseTimeEntity {
     private String asInfo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name = "item_id")
     private Item item;
 
     @Builder
@@ -76,7 +77,7 @@ public class ItemDetail extends BaseTimeEntity {
     public void update(ItemDetailUpdateDto dto) {
         this.maxOrder = dto.getMaxOrder();
         this.parallelType = ParallelType.valueOf(dto.getParallelType());
-        this.minorType = MinorType.valueOf(dto.getManufacturerItemName());
+        this.minorType = MinorType.valueOf(dto.getMinorType());
         this.taxType = TaxType.valueOf(dto.getTaxType());
         this.maker = dto.getMaker();
         this.manufacturerItemName = dto.getManufacturerItemName();

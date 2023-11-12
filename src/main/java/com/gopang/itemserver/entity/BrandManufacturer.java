@@ -37,7 +37,6 @@ public class BrandManufacturer {
     //== 양방향 연관관계 편의 메소드 ==//
     public void setItem(Item item) {
         this.item = item;
-        item.getBrandManufacturer().add(this);
     }
 
     public void update(BrandManufacturerUpdateDto dto) {

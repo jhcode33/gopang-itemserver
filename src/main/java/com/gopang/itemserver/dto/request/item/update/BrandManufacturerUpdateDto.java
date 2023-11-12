@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BrandManufacturerUpdateDto {
 
-    private Long brandManuId;
+    private Long brandManufacturerId;
 
     @NotBlank(message = "브랜드 이름은 Null 값을 가질 수 없습니다.")
     private String brandName;
