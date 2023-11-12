@@ -1,5 +1,6 @@
 package com.gopang.itemserver.entity;
 
+import com.gopang.itemserver.dto.request.item.update.BrandManufacturerUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,5 +38,10 @@ public class BrandManufacturer {
     public void setItem(Item item) {
         this.item = item;
         item.getBrandManufacturer().add(this);
+    }
+
+    public void update(BrandManufacturerUpdateDto dto) {
+        this.brandName = dto.getBrandName();
+        this.manufacturerName = dto.getManufacturerName();
     }
 }

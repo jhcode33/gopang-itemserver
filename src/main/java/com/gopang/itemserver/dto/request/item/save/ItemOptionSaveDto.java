@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request.item;
+package com.gopang.itemserver.dto.request.item.save;
 
 import com.gopang.itemserver.entity.ItemOption;
 import lombok.Builder;

@@ -1,6 +1,7 @@
 package com.gopang.itemserver.entity;
 
 import com.gopang.itemserver.common.BaseTimeEntity;
+import com.gopang.itemserver.dto.request.item.update.ItemDetailUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,7 +55,7 @@ public class ItemDetail extends BaseTimeEntity {
 
     @Builder
     public ItemDetail(Long itemDetailId, String maxOrder, ParallelType parallelType, MinorType minorType, TaxType taxType, String maker, String manufacturerItemName, String warning, String qualityAssurance, String asInfo, Item item) {
-        ItemDetailId = itemDetailId;
+        this.ItemDetailId = itemDetailId;
         this.maxOrder = maxOrder;
         this.parallelType = parallelType;
         this.minorType = minorType;
@@ -70,5 +71,17 @@ public class ItemDetail extends BaseTimeEntity {
     //== 양방향 연관관계 편의 메소드 ==//
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public void update(ItemDetailUpdateDto dto) {
+        this.maxOrder = dto.getMaxOrder();
+        this.parallelType = ParallelType.valueOf(dto.getParallelType());
+        this.minorType = MinorType.valueOf(dto.getManufacturerItemName());
+        this.taxType = TaxType.valueOf(dto.getTaxType());
+        this.maker = dto.getMaker();
+        this.manufacturerItemName = dto.getManufacturerItemName();
+        this.warning = dto.getWarning();
+        this.qualityAssurance = dto.getQualityAssurance();
+        this.asInfo = dto.getAsInfo();
     }
 }

@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * -Response
+ * 카테고리 목록 정보
+ */
 @Getter
 @Setter
 @NoArgsConstructor

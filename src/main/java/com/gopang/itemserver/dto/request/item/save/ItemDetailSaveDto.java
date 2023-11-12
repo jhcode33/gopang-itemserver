@@ -1,4 +1,4 @@
-package com.gopang.itemserver.dto.request.item;
+package com.gopang.itemserver.dto.request.item.save;
 
 import com.gopang.itemserver.entity.ItemDetail;
 import com.gopang.itemserver.entity.ItemDetail.MinorType;
@@ -11,7 +11,7 @@ import lombok.Setter;
 
 /**
  * -Request
- * 판매자 상품 상세 정보
+ * 판매자 상품 상세 등록 정보
  */
 @Getter
 @Setter

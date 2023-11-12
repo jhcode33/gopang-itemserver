@@ -1,6 +1,7 @@
 package com.gopang.itemserver.entity;
 
 import com.gopang.itemserver.common.BaseTimeEntity;
+import com.gopang.itemserver.dto.request.item.update.ItemUpdateDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -90,5 +91,19 @@ public class Item extends BaseTimeEntity {
     public void setCategory(Category category) {
         this.category = category;
         category.getItems().add(this); // 양방향 연관관계 설정
+    }
+
+    public void update(Category category, ItemUpdateDto dto, List<ImageFile> images, List<ItemOption> options, List<BrandManufacturer> brandManufacturer) {
+        this.titleName = dto.getTitleName();
+        this.itemLabel = dto.getItemLabel();
+        this.state = SellState.valueOf(dto.getSellState());
+        this.sellStartDate = dto.getSellStartDate();
+        this.sellEndDate = dto.getSellEndDate();
+        this.sellerId = dto.getSellerId();
+        this.sellerDeliveryId = dto.getSellerDeliveryId();
+        this.sellerREId = dto.getSellerREId();
+        this.images = images;
+        this.options = options;
+        this.brandManufacturer = brandManufacturer;
     }
 }
