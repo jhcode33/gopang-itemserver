@@ -16,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +36,7 @@ public class ItemServiceTest {
 
     ItemSaveDto itemSaveDto;
     ItemDetailSaveDto itemDetailSaveDto;
-    ItemOptionSaveDto itemOptionSaveDto;
+    List<ItemOptionSaveDto> itemOptionSaveDtoList = new ArrayList<>();
     BrandManufacturerSaveDto brandManufacturerSaveDto;
 
     @BeforeEach
@@ -57,7 +59,7 @@ public class ItemServiceTest {
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(new Category()));
         ItemSaveRequest itemSaveRequest = new ItemSaveRequest();
         itemSaveRequest.setItemSaveDto(itemSaveDto);
-        itemSaveRequest.setItemOptionSaveDto(itemOptionSaveDto);
+        itemSaveRequest.setItemOptionSaveDtoList(itemOptionSaveDtoList);
         itemSaveRequest.setItemDetailSaveDto(itemDetailSaveDto);
         itemSaveRequest.setBrandManufacturerSaveDto(brandManufacturerSaveDto);
         itemSaveRequest.setCategoryId(categoryId);
@@ -94,7 +96,7 @@ public class ItemServiceTest {
                 .asInfo("Sample AS Info")
                 .build();
 
-        itemOptionSaveDto = ItemOptionSaveDto.builder()
+        ItemOptionSaveDto itemOptionSaveDto1 = ItemOptionSaveDto.builder()
                 .itemModelName("Sample Item Model Name")
                 .sellerItemNumber("Sample Seller Item Number")
                 .optionName("Sample Option Name")
@@ -104,6 +106,20 @@ public class ItemServiceTest {
                 .sellCost(9000L)
                 .inventoryAmount(50L)
                 .build();
+
+        ItemOptionSaveDto itemOptionSaveDto2 = ItemOptionSaveDto.builder()
+                .itemModelName("Sample Item Model Name")
+                .sellerItemNumber("Sample Seller Item Number")
+                .optionName("Sample Option Name")
+                .sellAmount(10L)
+                .normalCost(10000L)
+                .discountCost(8000L)
+                .sellCost(9000L)
+                .inventoryAmount(50L)
+                .build();
+
+        itemOptionSaveDtoList.add(itemOptionSaveDto1);
+        itemOptionSaveDtoList.add(itemOptionSaveDto2);
 
         brandManufacturerSaveDto = BrandManufacturerSaveDto.builder()
                 .brandName("Sample Brand")
