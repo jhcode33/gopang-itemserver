@@ -27,3 +27,19 @@ spring:
         "[hbm2ddl.auto]": update
     open-in-view: true
     show-sql: true
+
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          function:
+            definition: basicConsumer; basicProducer
+
+          bindings:
+            basicProducer-out-0:
+              destination: cloud-stream
+              content-type: application/json
+            basicConsumer-in-0:
+              destination: cloud-stream
