@@ -1,6 +1,7 @@
 package com.gopang.itemserver.controller;
 
 import com.gopang.itemserver.dto.request.item.SellerInfo;
+import com.gopang.itemserver.dto.request.item.itemorder.ResItemOrder;
 import com.gopang.itemserver.dto.request.item.save.ItemSaveRequest;
 import com.gopang.itemserver.dto.request.item.update.ItemUpdateRequest;
 import com.gopang.itemserver.dto.response.ResItem;
@@ -63,6 +64,22 @@ public class ItemController {
                 .status(HttpStatus.OK)
                 .body(updateDto);
 
+    }
+
+    /**
+     * 주문에서 상품 정보 조회
+     * @author 김민규
+     * @param itemIds
+     * @return
+     */
+    @PostMapping("/order/item")
+    public ResponseEntity<List<ResItemOrder>> getItemOrder(
+            @RequestBody List<Long> itemIds) {
+
+        List<ResItemOrder> resItemOrders = itemService.getItemOrders(itemIds);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(resItemOrders);
     }
 
 }

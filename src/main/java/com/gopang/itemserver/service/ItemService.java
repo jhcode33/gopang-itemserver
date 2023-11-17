@@ -1,9 +1,11 @@
 package com.gopang.itemserver.service;
 
 import com.gopang.itemserver.dto.request.item.SellerInfo;
+import com.gopang.itemserver.dto.request.item.itemorder.ResItemOrder;
 import com.gopang.itemserver.dto.request.item.save.*;
 import com.gopang.itemserver.dto.request.item.update.*;
 import com.gopang.itemserver.dto.response.ResItem;
+import com.gopang.itemserver.dto.response.ResItemDetailDto;
 import com.gopang.itemserver.dto.response.ResItemSaveDto;
 import com.gopang.itemserver.dto.response.ResItemUpdateDto;
 import com.gopang.itemserver.entity.*;
@@ -43,6 +45,14 @@ public class ItemService {
             }
         }
         return resItemList;
+    }
+
+    public ResItemDetailDto findItemDetail(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(
+                () -> new IllegalArgumentException("Iten not found")
+        );
+
+        return ResItemDetailDto.fromEntity(item);
     }
 
     // 판매자 id, 판매자 배송 정보 id, 판매자 환불 정보 id, 카테고리 id
@@ -120,6 +130,31 @@ public class ItemService {
 
     }
 
+    /**
+     * 주문에서 상품 정보 조회
+     * @author 김민규
+     * @param itemIds
+     * @return
+     */
+    public List<ResItemOrder> getItemOrders(List<Long> itemIds) {
+        List<Item> itemList = itemRepository.findAllById(itemIds);
+
+        List<ResItemOrder> resItemOrders = new ArrayList<>();
+        for (Item item : itemList) {
+            Long itemPrice = item.getOptions().get(1).getSellCost();
+            ResItemOrder resItemOrder = ResItemOrder.builder()
+                    .itemId(item.getItemId())
+                    .itemName(item.getTitleName())
+                    .itemPrice(itemPrice)
+                    .build();
+
+            resItemOrders.add(resItemOrder);
+        }
+
+        return resItemOrders;
+    }
+
+    //== private method ==//
     private ItemDetail updateItemDetail(ItemDetailUpdateDto itemDetailUpdateDto) {
         ItemDetail itemDetail = itemDetailRepository.findById(itemDetailUpdateDto.getItemDetailId()).orElseThrow(
                 () -> new IllegalArgumentException(("ItemDetail not found"))
