@@ -7,14 +7,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @SpringBootApplication
 @RefreshScope
-@EnableDiscoveryClient
 //@EnableFeignClients
 public class ItemserverApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ItemserverApplication.class, args);
     }
-
-
-
 }
